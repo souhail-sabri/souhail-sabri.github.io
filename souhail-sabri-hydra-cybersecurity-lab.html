@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Souhail Sabri | How to Use Hydra in an Authorized Cybersecurity Lab</title>
+  <meta name="description" content="A Souhail Sabri cybersecurity tutorial explaining how to use Hydra safely in an authorized lab for password auditing, defensive testing, authentication security, and account protection." />
+  <meta name="keywords" content="Souhail Sabri, Hydra tutorial, THC Hydra, cybersecurity lab, password auditing, authentication testing, defensive security, blue team, penetration testing lab, security awareness" />
+  <meta name="author" content="Souhail Sabri" />
+  <meta name="robots" content="index, follow, max-image-preview:large" />
+
+  <!-- Update this canonical URL if you upload the file under a different name -->
+  <link rel="canonical" href="https://souhail-sabri.github.io/souhail-sabri-hydra-cybersecurity-lab.html" />
+
+  <meta property="og:title" content="Souhail Sabri | How to Use Hydra in an Authorized Cybersecurity Lab" />
+  <meta property="og:description" content="A defensive cybersecurity tutorial about using Hydra safely for authorized password auditing and authentication security testing." />
+  <meta property="og:type" content="article" />
+  <meta property="og:url" content="https://souhail-sabri.github.io/souhail-sabri-hydra-cybersecurity-lab.html" />
+  <meta property="og:site_name" content="Souhail Sabri" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Souhail Sabri | Hydra Cybersecurity Lab Tutorial" />
+  <meta name="twitter:description" content="A Souhail Sabri cybersecurity tutorial about using Hydra safely in an authorized lab environment." />
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "TechArticle",
+    "headline": "How to Use Hydra in an Authorized Cybersecurity Lab",
+    "author": {
+      "@type": "Person",
+      "name": "Souhail Sabri",
+      "url": "https://souhail-sabri.github.io/"
+    },
+    "description": "A beginner-friendly cybersecurity tutorial explaining how Hydra can be used safely in an authorized lab for password auditing, authentication testing, and defensive security awareness.",
+    "keywords": [
+      "Souhail Sabri",
+      "Hydra tutorial",
+      "THC Hydra",
+      "cybersecurity lab",
+      "password auditing",
+      "authentication testing",
+      "defensive security",
+      "blue team"
+    ],
+    "url": "https://souhail-sabri.github.io/souhail-sabri-hydra-cybersecurity-lab.html",
+    "datePublished": "2026-05-14",
+    "dateModified": "2026-05-14"
+  }
+  </script>
+
+  <style>
+    :root {
+      --bg: #07111f;
+      --panel: #101c2e;
+      --panel2: #13233a;
+      --text: #eef6ff;
+      --muted: #b7c5d8;
+      --accent: #4fb3ff;
+      --accent2: #70e0a8;
+      --warning: #ffcc66;
+      --danger: #ff6b6b;
+      --line: rgba(255,255,255,0.14);
+      --code: #06101c;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background:
+        radial-gradient(circle at top left, rgba(79,179,255,0.18), transparent 34%),
+        radial-gradient(circle at top right, rgba(112,224,168,0.13), transparent 30%),
+        var(--bg);
+      color: var(--text);
+      line-height: 1.65;
+    }
+
+    header {
+      min-height: 54vh;
+      display: grid;
+      place-items: center;
+      text-align: center;
+      padding: 70px 22px 48px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .hero {
+      max-width: 980px;
+    }
+
+    .eyebrow {
+      display: inline-block;
+      color: var(--accent2);
+      border: 1px solid rgba(112,224,168,0.45);
+      background: rgba(112,224,168,0.08);
+      padding: 7px 13px;
+      border-radius: 999px;
+      font-size: 0.9rem;
+      font-weight: bold;
+      margin-bottom: 18px;
+    }
+
+    h1 {
+      font-size: clamp(2.2rem, 6vw, 5rem);
+      line-height: 1.03;
+      margin: 0 0 18px;
+      letter-spacing: -1.5px;
+    }
+
+    header p {
+      max-width: 840px;
+      margin: 0 auto;
+      color: var(--muted);
+      font-size: 1.18rem;
+    }
+
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      background: rgba(7,17,31,0.94);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--line);
+      padding: 14px 18px;
+      text-align: center;
+    }
+
+    nav a {
+      color: var(--text);
+      text-decoration: none;
+      margin: 0 10px;
+      font-weight: bold;
+      font-size: 0.95rem;
+    }
+
+    nav a:hover {
+      color: var(--accent);
+    }
+
+    main {
+      max-width: 1120px;
+      margin: 34px auto;
+      padding: 0 20px;
+    }
+
+    section {
+      background: linear-gradient(180deg, var(--panel), var(--panel2));
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      padding: 28px;
+      margin-bottom: 24px;
+      box-shadow: 0 18px 40px rgba(0,0,0,0.25);
+    }
+
+    h2 {
+      color: var(--accent);
+      font-size: 1.8rem;
+      margin-top: 0;
+    }
+
+    h3 {
+      color: var(--accent2);
+      margin-bottom: 8px;
+    }
+
+    a {
+      color: var(--accent2);
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(245px, 1fr));
+      gap: 18px;
+    }
+
+    .card {
+      background: rgba(255,255,255,0.045);
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 18px;
+    }
+
+    .card p {
+      color: var(--muted);
+    }
+
+    .steps {
+      counter-reset: step;
+      padding-left: 0;
+      list-style: none;
+    }
+
+    .steps li {
+      counter-increment: step;
+      margin: 16px 0;
+      padding: 18px 18px 18px 60px;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: rgba(255,255,255,0.045);
+      position: relative;
+    }
+
+    .steps li::before {
+      content: counter(step);
+      position: absolute;
+      left: 18px;
+      top: 18px;
+      width: 28px;
+      height: 28px;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      background: var(--accent);
+      color: #00101f;
+      font-weight: bold;
+    }
+
+    code, pre {
+      font-family: Consolas, Monaco, "Courier New", monospace;
+    }
+
+    pre {
+      background: var(--code);
+      color: #e9f4ff;
+      border: 1px solid rgba(79,179,255,0.28);
+      border-radius: 16px;
+      padding: 18px;
+      overflow-x: auto;
+      white-space: pre-wrap;
+    }
+
+    .warning {
+      border-left: 5px solid var(--warning);
+      background: rgba(255,204,102,0.08);
+      padding: 14px 16px;
+      border-radius: 12px;
+      color: #fff2d4;
+    }
+
+    .danger {
+      border-left: 5px solid var(--danger);
+      background: rgba(255,107,107,0.08);
+      padding: 14px 16px;
+      border-radius: 12px;
+      color: #ffdede;
+    }
+
+    .keywords {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .keywords span {
+      background: rgba(79,179,255,0.12);
+      border: 1px solid rgba(79,179,255,0.32);
+      color: #dff1ff;
+      padding: 7px 12px;
+      border-radius: 999px;
+      font-size: 0.94rem;
+      font-weight: bold;
+    }
+
+    footer {
+      text-align: center;
+      padding: 34px 20px;
+      color: var(--muted);
+      border-top: 1px solid var(--line);
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <div class="hero">
+      <span class="eyebrow">Cybersecurity Tutorial by Souhail Sabri</span>
+      <h1>How to Use Hydra in an Authorized Cybersecurity Lab</h1>
+      <p>
+        This Souhail Sabri cybersecurity guide explains how Hydra can be used safely
+        in a legal lab environment for password auditing, authentication security
+        awareness, defensive testing, and account protection.
+      </p>
+    </div>
+  </header>
+
+  <nav aria-label="Page navigation">
+    <a href="#about">About</a>
+    <a href="#hydra">Hydra</a>
+    <a href="#workflow">Workflow</a>
+    <a href="#lab">Lab Notes</a>
+    <a href="#defense">Defense</a>
+    <a href="#links">Links</a>
+  </nav>
+
+  <main>
+    <section id="about">
+      <h2>About This Souhail Sabri Hydra Tutorial</h2>
+      <p>
+        This page is part of the Souhail Sabri cybersecurity portfolio and explains
+        Hydra from a defensive and educational perspective. Hydra is a password auditing
+        tool that can help authorized security learners understand why weak passwords,
+        exposed services, and missing lockout controls create risk.
+      </p>
+      <p>
+        This tutorial is intended only for systems you own, lab targets you created,
+        or environments where you have clear written permission to test. The goal is
+        security education, defensive awareness, and better authentication protection.
+      </p>
+
+      <div class="danger">
+        <strong>Authorization required:</strong> Do not use Hydra against real systems,
+        public IP addresses, third-party accounts, employer systems, cloud services,
+        or websites without explicit permission. Unauthorized password testing can be
+        illegal and harmful.
+      </div>
+    </section>
+
+    <section id="hydra">
+      <h2>What Hydra Does in Cybersecurity Training</h2>
+      <div class="grid">
+        <div class="card">
+          <h3>Password Auditing</h3>
+          <p>
+            Hydra can test whether weak or reused credentials are accepted by a service
+            in an authorized lab. This helps demonstrate why strong passwords matter.
+          </p>
+        </div>
+        <div class="card">
+          <h3>Authentication Testing</h3>
+          <p>
+            Security teams can use lab testing to understand how services respond to
+            repeated login attempts and whether defensive controls are working.
+          </p>
+        </div>
+        <div class="card">
+          <h3>Security Awareness</h3>
+          <p>
+            Hydra is useful for teaching how attackers abuse weak credentials and why
+            account lockout, MFA, monitoring, and password policy are important.
+          </p>
+        </div>
+        <div class="card">
+          <h3>Defensive Validation</h3>
+          <p>
+            In a controlled environment, Hydra-style testing can help validate logging,
+            alerts, rate limits, and account lockout policies.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section id="workflow">
+      <h2>Safe Workflow: Using Hydra in a Lab</h2>
+      <ol class="steps">
+        <li>
+          <strong>Build a private lab target.</strong><br />
+          Use a local virtual machine, intentionally vulnerable training box, or
+          practice service that you control. Keep the lab isolated from production systems.
+        </li>
+        <li>
+          <strong>Document authorization and scope.</strong><br />
+          Write down the allowed target, allowed service, allowed username list,
+          allowed wordlist, testing time, and purpose of the exercise.
+        </li>
+        <li>
+          <strong>Identify the lab service.</strong><br />
+          Confirm which test service is running in your lab, such as SSH on a local
+          VM. Do not scan or test systems outside your scope.
+        </li>
+        <li>
+          <strong>Run a small, controlled test.</strong><br />
+          Use a tiny lab wordlist and a known test account. The goal is learning and
+          validation, not high-volume guessing.
+        </li>
+        <li>
+          <strong>Review logs and alerts.</strong><br />
+          Check whether the system recorded failed login attempts, generated security
+          logs, triggered alerts, or locked the account after repeated failures.
+        </li>
+        <li>
+          <strong>Document defensive lessons.</strong><br />
+          Summarize what controls worked, what controls failed, and how authentication
+          security can be improved.
+        </li>
+      </ol>
+    </section>
+
+    <section id="lab">
+      <h2>Authorized Lab Example Notes</h2>
+      <p>
+        The following examples are intentionally framed for a local lab target only.
+        Replace the values with your own authorized lab details.
+      </p>
+
+      <h3>Check Hydra Help</h3>
+      <pre><code>hydra -h</code></pre>
+
+      <h3>Check Hydra Version</h3>
+      <pre><code>hydra -V</code></pre>
+
+      <h3>Example Lab Planning Template</h3>
+      <pre><code>Lab target: Local VM only
+Target IP: 192.168.56.10
+Service: SSH lab service
+Username: testuser
+Wordlist: small training wordlist
+Purpose: Validate password policy, logging, and lockout behavior
+Authorization: Personal lab environment</code></pre>
+
+      <h3>Controlled Local Lab Example</h3>
+      <pre><code>hydra -l testuser -P small-lab-wordlist.txt ssh://192.168.56.10</code></pre>
+
+      <div class="warning">
+        <strong>Best practice:</strong> Use a small lab wordlist, avoid high-volume
+        testing, and focus on defensive learning such as logging, account lockout,
+        monitoring, and multi-factor authentication.
+      </div>
+    </section>
+
+    <section id="defense">
+      <h2>Defensive Lessons from Hydra Testing</h2>
+      <p>
+        The most important part of a Hydra lab is not the command itself. The value
+        comes from understanding what defenders should monitor and improve.
+      </p>
+
+      <div class="grid">
+        <div class="card">
+          <h3>Use Strong Passwords</h3>
+          <p>
+            Weak and reused passwords create risk. Use long, unique passwords managed
+            by a trusted password manager.
+          </p>
+        </div>
+        <div class="card">
+          <h3>Enable MFA</h3>
+          <p>
+            Multi-factor authentication adds protection even when a password is weak,
+            reused, guessed, or exposed.
+          </p>
+        </div>
+        <div class="card">
+          <h3>Apply Account Lockout</h3>
+          <p>
+            Lockout and throttling controls reduce the effectiveness of repeated login
+            attempts and should be tested carefully.
+          </p>
+        </div>
+        <div class="card">
+          <h3>Monitor Authentication Logs</h3>
+          <p>
+            Failed login spikes, repeated attempts, unusual source addresses, and
+            repeated username failures should generate alerts.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2>Hydra Lab Report Template</h2>
+      <pre><code>Souhail Sabri Hydra Lab Report
+
+Objective:
+Understand password auditing and authentication defense in an authorized lab.
+
+Scope:
+Local virtual machine only.
+
+Observed:
+- Login attempts were recorded in authentication logs
+- Failed login patterns were visible
+- Account lockout behavior was reviewed
+- Password policy strength was evaluated
+
+Defensive Recommendations:
+- Enforce strong password policy
+- Enable MFA where possible
+- Configure lockout or throttling
+- Alert on repeated authentication failures
+- Review exposed services regularly</code></pre>
+    </section>
+
+    <section>
+      <h2>Search Topics Related to Souhail Sabri and Hydra</h2>
+      <div class="keywords">
+        <span>Souhail Sabri Hydra</span>
+        <span>Souhail Sabri Cybersecurity</span>
+        <span>Hydra Cybersecurity Lab</span>
+        <span>THC Hydra Tutorial</span>
+        <span>Password Auditing</span>
+        <span>Authentication Testing</span>
+        <span>Defensive Security</span>
+        <span>Blue Team Security</span>
+        <span>Cybersecurity Portfolio</span>
+      </div>
+    </section>
+
+    <section id="links">
+      <h2>Explore More from Souhail Sabri</h2>
+      <ul>
+        <li><a href="https://souhail-sabri.github.io/">Souhail Sabri Official Homepage</a></li>
+        <li><a href="https://souhail-sabri.github.io/souhail-sabri-snort-network-traffic-analysis.html">Souhail Sabri Snort Network Traffic Analysis Tutorial</a></li>
+        <li><a href="https://souhail-sabri.github.io/souhail-sabri-ida-pro-malware-analysis.html">Souhail Sabri IDA Pro Malware Analysis Tutorial</a></li>
+        <li><a href="https://souhail-sabri.github.io/drone-assault-arcade.html">Souhail Sabri Drone Assault Arcade Game</a></li>
+        <li><a href="https://souhail-sabri.github.io/souhail-sabri-mango-orzo-salad-recipe.html">Souhail Sabri Mango Orzo Salad Recipe</a></li>
+        <li><a href="https://www.pinterest.com/souhailsabrii/things/">Souhail Sabri Pinterest Board</a></li>
+      </ul>
+      <p>
+        For better Google indexing, link this Hydra tutorial from the Souhail Sabri
+        homepage, add it to the sitemap, and request indexing in Google Search Console.
+      </p>
+    </section>
+
+    <section>
+      <h2>Hydra Tutorial Notes Preview</h2>
+      <p>
+        Below is a safe reference preview for this Souhail Sabri Hydra cybersecurity
+        lab tutorial.
+      </p>
+      <pre><code># Souhail Sabri Hydra Cybersecurity Lab Notes
+
+Use Hydra only in authorized environments.
+
+Safe learning goals:
+- Understand password auditing risk
+- Validate logging and monitoring
+- Review account lockout behavior
+- Improve authentication defenses
+- Support blue-team security awareness
+
+Example lab-only command:
+hydra -l testuser -P small-lab-wordlist.txt ssh://192.168.56.10
+
+Do not:
+- Test public systems
+- Test accounts you do not own
+- Test employer systems without written permission
+- Use large-scale guessing against real services
+- Bypass security controls without authorization</code></pre>
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2026 Souhail Sabri. Hydra Cybersecurity Lab Tutorial.</p>
+  </footer>
+</body>
+</html>
