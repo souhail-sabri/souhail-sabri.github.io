@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Souhail Sabri | GnuPG Encryption Tutorial</title>
+  <meta name="description" content="A Souhail Sabri cybersecurity tutorial explaining how to use GnuPG for encryption, decryption, digital signatures, file protection, key generation, and secure communication." />
+  <meta name="keywords" content="Souhail Sabri, GnuPG, GPG encryption, public key encryption, cybersecurity, digital signatures, file encryption, key management, privacy, secure communication" />
+  <meta name="author" content="Souhail Sabri" />
+  <meta name="robots" content="index, follow, max-image-preview:large" />
+
+  <link rel="canonical" href="https://souhail-sabri.github.io/souhail-sabri-gnupg-encryption-tutorial.html" />
+
+  <meta property="og:title" content="Souhail Sabri | GnuPG Encryption Tutorial" />
+  <meta property="og:description" content="Learn how to use GnuPG for encryption, decryption, signing, verification, and secure file protection." />
+  <meta property="og:type" content="article" />
+  <meta property="og:url" content="https://souhail-sabri.github.io/souhail-sabri-gnupg-encryption-tutorial.html" />
+  <meta property="og:site_name" content="Souhail Sabri" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Souhail Sabri | GnuPG Encryption Tutorial" />
+  <meta name="twitter:description" content="A cybersecurity tutorial by Souhail Sabri about using GnuPG encryption and digital signatures." />
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "TechArticle",
+    "headline": "GnuPG Encryption Tutorial",
+    "author": {
+      "@type": "Person",
+      "name": "Souhail Sabri",
+      "url": "https://souhail-sabri.github.io/"
+    },
+    "description": "A beginner-friendly cybersecurity tutorial explaining how to use GnuPG for encryption, decryption, digital signatures, verification, and key management.",
+    "keywords": [
+      "Souhail Sabri",
+      "GnuPG",
+      "GPG encryption",
+      "public key encryption",
+      "digital signatures",
+      "file encryption",
+      "cybersecurity",
+      "secure communication"
+    ],
+    "url": "https://souhail-sabri.github.io/souhail-sabri-gnupg-encryption-tutorial.html",
+    "datePublished": "2026-05-14",
+    "dateModified": "2026-05-14"
+  }
+  </script>
+
+  <style>
+    :root {
+      --bg: #07111f;
+      --panel: #101c2e;
+      --panel2: #13233a;
+      --text: #eef6ff;
+      --muted: #b7c5d8;
+      --accent: #4fb3ff;
+      --accent2: #70e0a8;
+      --warning: #ffcc66;
+      --line: rgba(255,255,255,0.14);
+      --code: #06101c;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background:
+        radial-gradient(circle at top left, rgba(79,179,255,0.18), transparent 34%),
+        radial-gradient(circle at top right, rgba(112,224,168,0.13), transparent 30%),
+        var(--bg);
+      color: var(--text);
+      line-height: 1.65;
+    }
+
+    header {
+      min-height: 54vh;
+      display: grid;
+      place-items: center;
+      text-align: center;
+      padding: 70px 22px 48px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .hero { max-width: 980px; }
+
+    .eyebrow {
+      display: inline-block;
+      color: var(--accent2);
+      border: 1px solid rgba(112,224,168,0.45);
+      background: rgba(112,224,168,0.08);
+      padding: 7px 13px;
+      border-radius: 999px;
+      font-size: 0.9rem;
+      font-weight: bold;
+      margin-bottom: 18px;
+    }
+
+    h1 {
+      font-size: clamp(2.2rem, 6vw, 5rem);
+      line-height: 1.03;
+      margin: 0 0 18px;
+      letter-spacing: -1.5px;
+    }
+
+    header p {
+      max-width: 840px;
+      margin: 0 auto;
+      color: var(--muted);
+      font-size: 1.18rem;
+    }
+
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      background: rgba(7,17,31,0.94);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--line);
+      padding: 14px 18px;
+      text-align: center;
+    }
+
+    nav a {
+      color: var(--text);
+      text-decoration: none;
+      margin: 0 10px;
+      font-weight: bold;
+      font-size: 0.95rem;
+    }
+
+    nav a:hover { color: var(--accent); }
+
+    main {
+      max-width: 1120px;
+      margin: 34px auto;
+      padding: 0 20px;
+    }
+
+    section {
+      background: linear-gradient(180deg, var(--panel), var(--panel2));
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      padding: 28px;
+      margin-bottom: 24px;
+      box-shadow: 0 18px 40px rgba(0,0,0,0.25);
+    }
+
+    h2 {
+      color: var(--accent);
+      font-size: 1.8rem;
+      margin-top: 0;
+    }
+
+    h3 {
+      color: var(--accent2);
+      margin-bottom: 8px;
+    }
+
+    a { color: var(--accent2); }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(245px, 1fr));
+      gap: 18px;
+    }
+
+    .card {
+      background: rgba(255,255,255,0.045);
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 18px;
+    }
+
+    .card p { color: var(--muted); }
+
+    .steps {
+      counter-reset: step;
+      padding-left: 0;
+      list-style: none;
+    }
+
+    .steps li {
+      counter-increment: step;
+      margin: 16px 0;
+      padding: 18px 18px 18px 60px;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: rgba(255,255,255,0.045);
+      position: relative;
+    }
+
+    .steps li::before {
+      content: counter(step);
+      position: absolute;
+      left: 18px;
+      top: 18px;
+      width: 28px;
+      height: 28px;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      background: var(--accent);
+      color: #00101f;
+      font-weight: bold;
+    }
+
+    code, pre { font-family: Consolas, Monaco, "Courier New", monospace; }
+
+    pre {
+      background: var(--code);
+      color: #e9f4ff;
+      border: 1px solid rgba(79,179,255,0.28);
+      border-radius: 16px;
+      padding: 18px;
+      overflow-x: auto;
+      white-space: pre-wrap;
+    }
+
+    .warning {
+      border-left: 5px solid var(--warning);
+      background: rgba(255,204,102,0.08);
+      padding: 14px 16px;
+      border-radius: 12px;
+      color: #fff2d4;
+    }
+
+    .keywords {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .keywords span {
+      background: rgba(79,179,255,0.12);
+      border: 1px solid rgba(79,179,255,0.32);
+      color: #dff1ff;
+      padding: 7px 12px;
+      border-radius: 999px;
+      font-size: 0.94rem;
+      font-weight: bold;
+    }
+
+    footer {
+      text-align: center;
+      padding: 34px 20px;
+      color: var(--muted);
+      border-top: 1px solid var(--line);
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <div class="hero">
+      <span class="eyebrow">Cybersecurity Tutorial by Souhail Sabri</span>
+      <h1>GnuPG Encryption Tutorial</h1>
+      <p>
+        This Souhail Sabri cybersecurity guide explains how to use GnuPG for
+        encryption, decryption, public keys, private keys, digital signatures,
+        verification, and secure file protection.
+      </p>
+    </div>
+  </header>
+
+  <nav aria-label="Page navigation">
+    <a href="#about">About</a>
+    <a href="#concepts">Concepts</a>
+    <a href="#workflow">Workflow</a>
+    <a href="#commands">Commands</a>
+    <a href="#best-practices">Best Practices</a>
+    <a href="#links">Links</a>
+  </nav>
+
+  <main>
+    <section id="about">
+      <h2>About This Souhail Sabri GnuPG Tutorial</h2>
+      <p>
+        This page is part of the Souhail Sabri cybersecurity portfolio and explains
+        how GnuPG, also called GPG, can protect files and messages using encryption
+        and digital signatures.
+      </p>
+      <p>
+        GnuPG is commonly used for privacy, secure communication, software release
+        verification, file protection, and identity verification through public-key
+        cryptography.
+      </p>
+    </section>
+
+    <section id="concepts">
+      <h2>Important GnuPG Concepts</h2>
+      <div class="grid">
+        <div class="card">
+          <h3>Public Key</h3>
+          <p>
+            A public key can be shared with others. People use it to encrypt messages
+            or files that only your private key can decrypt.
+          </p>
+        </div>
+        <div class="card">
+          <h3>Private Key</h3>
+          <p>
+            A private key must be protected. It is used to decrypt files and create
+            digital signatures.
+          </p>
+        </div>
+        <div class="card">
+          <h3>Encryption</h3>
+          <p>
+            Encryption protects content so only the intended recipient can read it.
+          </p>
+        </div>
+        <div class="card">
+          <h3>Digital Signatures</h3>
+          <p>
+            A signature helps prove that a file or message came from a specific key
+            and was not changed after signing.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section id="workflow">
+      <h2>Basic Workflow: Using GnuPG Encryption</h2>
+      <ol class="steps">
+        <li>
+          <strong>Install GnuPG.</strong><br />
+          Install GnuPG on your operating system and confirm that the gpg command is available.
+        </li>
+        <li>
+          <strong>Create a key pair.</strong><br />
+          Generate a public/private key pair for encryption and signing.
+        </li>
+        <li>
+          <strong>Protect your private key.</strong><br />
+          Use a strong passphrase and keep private key backups secure.
+        </li>
+        <li>
+          <strong>Share your public key.</strong><br />
+          Send your public key to people who need to encrypt files or messages to you.
+        </li>
+        <li>
+          <strong>Encrypt and decrypt files.</strong><br />
+          Use the recipient public key to encrypt files and your private key to decrypt them.
+        </li>
+        <li>
+          <strong>Sign and verify files.</strong><br />
+          Use digital signatures to confirm authenticity and integrity.
+        </li>
+      </ol>
+    </section>
+
+    <section id="commands">
+      <h2>Useful GnuPG Commands</h2>
+
+      <h3>Check GnuPG Version</h3>
+      <pre><code>gpg --version</code></pre>
+
+      <h3>Generate a New Key Pair</h3>
+      <pre><code>gpg --full-generate-key</code></pre>
+
+      <h3>List Public Keys</h3>
+      <pre><code>gpg --list-keys</code></pre>
+
+      <h3>List Private Keys</h3>
+      <pre><code>gpg --list-secret-keys</code></pre>
+
+      <h3>Export a Public Key</h3>
+      <pre><code>gpg --armor --export your-email@example.com > public-key.asc</code></pre>
+
+      <h3>Import Someone’s Public Key</h3>
+      <pre><code>gpg --import public-key.asc</code></pre>
+
+      <h3>Encrypt a File for a Recipient</h3>
+      <pre><code>gpg --encrypt --armor --recipient recipient@example.com file.txt</code></pre>
+
+      <h3>Decrypt a File</h3>
+      <pre><code>gpg --decrypt file.txt.asc > decrypted-file.txt</code></pre>
+
+      <h3>Sign a File</h3>
+      <pre><code>gpg --armor --detach-sign file.txt</code></pre>
+
+      <h3>Verify a Signature</h3>
+      <pre><code>gpg --verify file.txt.asc file.txt</code></pre>
+    </section>
+
+    <section id="best-practices">
+      <h2>GnuPG Security Best Practices</h2>
+      <div class="grid">
+        <div class="card">
+          <h3>Use a Strong Passphrase</h3>
+          <p>
+            Protect your private key with a long, unique passphrase that is not reused anywhere else.
+          </p>
+        </div>
+        <div class="card">
+          <h3>Back Up Keys Securely</h3>
+          <p>
+            Store encrypted backups of your private key and revocation certificate in a safe location.
+          </p>
+        </div>
+        <div class="card">
+          <h3>Verify Fingerprints</h3>
+          <p>
+            Before trusting a public key, verify its fingerprint through a trusted channel.
+          </p>
+        </div>
+        <div class="card">
+          <h3>Create a Revocation Certificate</h3>
+          <p>
+            A revocation certificate lets you mark a key as no longer trusted if it is lost or compromised.
+          </p>
+        </div>
+      </div>
+
+      <div class="warning">
+        <strong>Important:</strong> Encryption protects content, but it does not automatically
+        verify trust. Always verify public key fingerprints before relying on a key.
+      </div>
+    </section>
+
+    <section>
+      <h2>GnuPG Quick Reference</h2>
+      <pre><code># Souhail Sabri GnuPG Encryption Notes
+
+Check version:
+gpg --version
+
+Generate key:
+gpg --full-generate-key
+
+List keys:
+gpg --list-keys
+gpg --list-secret-keys
+
+Export public key:
+gpg --armor --export your-email@example.com > public-key.asc
+
+Import public key:
+gpg --import public-key.asc
+
+Encrypt:
+gpg --encrypt --armor --recipient recipient@example.com file.txt
+
+Decrypt:
+gpg --decrypt file.txt.asc > decrypted-file.txt
+
+Sign:
+gpg --armor --detach-sign file.txt
+
+Verify:
+gpg --verify file.txt.asc file.txt</code></pre>
+    </section>
+
+    <section>
+      <h2>Search Topics Related to Souhail Sabri and GnuPG</h2>
+      <div class="keywords">
+        <span>Souhail Sabri GnuPG</span>
+        <span>Souhail Sabri GPG Encryption</span>
+        <span>Souhail Sabri Cybersecurity</span>
+        <span>Public Key Encryption</span>
+        <span>Digital Signatures</span>
+        <span>File Encryption</span>
+        <span>Key Management</span>
+        <span>Secure Communication</span>
+      </div>
+    </section>
+
+    <section id="links">
+      <h2>Explore More from Souhail Sabri</h2>
+      <ul>
+        <li><a href="https://souhail-sabri.github.io/">Souhail Sabri Official Homepage</a></li>
+        <li><a href="https://souhail-sabri.github.io/souhail-sabri-snort-network-traffic-analysis.html">Souhail Sabri Snort Network Traffic Analysis Tutorial</a></li>
+        <li><a href="https://souhail-sabri.github.io/souhail-sabri-ida-pro-malware-analysis.html">Souhail Sabri IDA Pro Malware Analysis Tutorial</a></li>
+        <li><a href="https://souhail-sabri.github.io/souhail-sabri-hydra-cybersecurity-lab.html">Souhail Sabri Hydra Cybersecurity Lab Tutorial</a></li>
+        <li><a href="https://souhail-sabri.github.io/drone-assault-arcade.html">Souhail Sabri Drone Assault Arcade Game</a></li>
+        <li><a href="https://souhail-sabri.github.io/souhail-sabri-mango-orzo-salad-recipe.html">Souhail Sabri Mango Orzo Salad Recipe</a></li>
+      </ul>
+      <p>
+        For better Google indexing, link this page from the Souhail Sabri homepage,
+        add it to the sitemap, and request indexing in Google Search Console.
+      </p>
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2026 Souhail Sabri. GnuPG Encryption Tutorial.</p>
+  </footer>
+</body>
+</html>
