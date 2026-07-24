@@ -21,8 +21,10 @@
   <meta property="og:description" content="Official website of Souhail Sabri featuring cybersecurity tutorials, technical projects, enterprise systems administration, and professional background." />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://souhail-sabri.github.io/" />
-  <meta property="og:image" content="https://souhail-sabri.github.io/souhail sabri.png" />
-  <meta property="og:image:alt" content="Souhail Sabri" />
+  <meta property="og:image" content="https://souhail-sabri.github.io/souhail%20sabri.png" />
+  <meta property="og:image:secure_url" content="https://souhail-sabri.github.io/souhail%20sabri.png" />
+  <meta property="og:image:type" content="image/png" />
+  <meta property="og:image:alt" content="Souhail Sabri - Profile Photo" />
   <meta property="og:image:width" content="1536" />
   <meta property="og:image:height" content="1024" />
 
@@ -30,10 +32,10 @@
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="Souhail Sabri | Cybersecurity & Systems Administration Portfolio" />
   <meta name="twitter:description" content="Official website of Souhail Sabri." />
-  <meta name="twitter:image" content="https://souhail-sabri.github.io/souhail sabripng" />
-  <meta name="twitter:image:alt" content="Souhail Sabri" />
+  <meta name="twitter:image" content="https://souhail-sabri.github.io/souhail%20sabri.png" />
+  <meta name="twitter:image:alt" content="Souhail Sabri - Profile Photo" />
 
-  <!-- Structured Data -->
+  <!-- Structured Data (Schema.org) -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -44,14 +46,26 @@
         "url": "https://souhail-sabri.github.io/",
         "name": "Souhail Sabri Official Website",
         "description": "Official website and portfolio of Souhail Sabri.",
-        "image": "https://souhail-sabri.github.io/souhail sabri.png"
+        "primaryImageOfPage": {
+          "@type": "ImageObject",
+          "@id": "https://souhail-sabri.github.io/#primaryimage",
+          "url": "https://souhail-sabri.github.io/souhail%20sabri.png",
+          "contentUrl": "https://souhail-sabri.github.io/souhail%20sabri.png",
+          "caption": "Souhail Sabri",
+          "width": "1536",
+          "height": "1024"
+        }
       },
       {
         "@type": "Person",
         "@id": "https://souhail-sabri.github.io/#person",
         "name": "Souhail Sabri",
         "url": "https://souhail-sabri.github.io/",
-        "image": "https://souhail-sabri.github.io/souhail sabri.png",
+        "image": {
+          "@type": "ImageObject",
+          "url": "https://souhail-sabri.github.io/souhail%20sabri.png",
+          "caption": "Souhail Sabri"
+        },
         "jobTitle": "Cybersecurity and Systems Administration Professional",
         "sameAs": [
           "https://souhail-sabri.github.io/",
@@ -286,8 +300,6 @@
       font-weight: 500;
     }
 
-
-
     .hero-image {
       margin: 36px 0 0;
     }
@@ -309,7 +321,6 @@
       font-size: 0.86rem;
       text-align: center;
     }
-
 
     main {
       padding: 38px 0 58px;
@@ -530,8 +541,9 @@
     </div>
     <figure class="hero-image">
       <img
-        src="souhail sabri.png"
+        src="souhail%20sabri.png"
         alt="Souhail Sabri"
+        title="Souhail Sabri"
         loading="eager"
         width="1536"
         height="1024">
