@@ -196,5 +196,76 @@ img {width:100%; border-radius:10px;}
 <p>© 2026 Souhail Sabri</p>
 </footer>
 
+<!-- Password Gate Overlay -->
+<div id="password-gate" style="
+  position: fixed;
+  inset: 0;
+  z-index: 99999;
+  background: #030706;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: Arial, sans-serif;
+">
+  <div style="
+    border: 1px solid rgba(22, 163, 74, 0.58);
+    background: #ffffff;
+    padding: 30px;
+    max-width: 400px;
+    width: 90%;
+    text-align: center;
+    border-radius: 10px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  ">
+    <h3 style="color: #16a34a; margin-top: 0; font-size: 1.2rem;">ACCESS REQUIRED</h3>
+    <p style="color: #4b5563; font-size: 0.9rem;">Enter passcode to proceed:</p>
+    <input type="password" id="pass-input" style="
+      background: #f9fafb;
+      border: 1px solid #d1d5db;
+      color: #111827;
+      padding: 10px;
+      width: 100%;
+      box-sizing: border-box;
+      margin-bottom: 15px;
+      font-family: inherit;
+      text-align: center;
+      border-radius: 6px;
+      outline: none;
+    " placeholder="Passcode" autofocus>
+    <button onclick="checkPassword()" style="
+      background: #16a34a;
+      border: none;
+      color: white;
+      padding: 10px 20px;
+      cursor: pointer;
+      font-weight: bold;
+      width: 100%;
+      font-family: inherit;
+      border-radius: 6px;
+    ">AUTHENTICATE</button>
+    <p id="error-msg" style="color: #dc2626; font-size: 0.85rem; margin-top: 12px; margin-bottom: 0; display: none;">Invalid Passcode</p>
+  </div>
+</div>
+
+<script>
+  function checkPassword() {
+    const input = document.getElementById('pass-input').value;
+    const gate = document.getElementById('password-gate');
+    const error = document.getElementById('error-msg');
+
+    if (input === "74123") {
+      gate.style.display = "none";
+    } else {
+      error.style.display = "block";
+    }
+  }
+
+  document.getElementById('pass-input').addEventListener('keypress', function (e) {
+    if (e.key === 'Enter') {
+      checkPassword();
+    }
+  });
+</script>
+
 </body>
 </html>
